@@ -1,8 +1,8 @@
-import 'bootstrap/dist/css/bootstrap.css'
+import 'bootswatch/dist/litera/bootstrap.css'
 import buildClient from '../util/build-client'
 import Header from '../components/header'
 
-import * as apiConstants from '../constants/api'
+import { authUrls } from '../constants/api'
 
 
 const AppComponent = ({ Component, pageProps, currentUser }) => {
@@ -15,11 +15,11 @@ const AppComponent = ({ Component, pageProps, currentUser }) => {
 }
 
 AppComponent.getInitialProps = async (appContext) => {
-  // ! This is not working, investigate the best way to do handle constans in nextjs.
-  console.log("🚀 ~ file: _app.js ~ line 20 ~ AppComponent.getInitialProps= ~ CURRENT_USER", apiConstants.CURRENT_USER) 
   const client = buildClient(appContext.ctx)
-  const { data } = await client.get('/api/users/currentuser')
+  const { data } = await client.get(authUrls.CURRENT_USER)
+  // console.log('🚀 ~ file: _app.js ~ line 19 ~ AppComponent.getInitialProps= ~ client', client)
   console.log("🚀 ~ file: _app.js ~ line 20 ~ AppComponent.getInitialProps= ~ data", data)
+  console.log("🚀 ~ file: _app.js ~ line 20 ~ typeof window", typeof window)
   // This way we call the getInitialProps from the landing pageProps, its going to 
   // run server setImmediate, not browser, this is going to run for every component 
   // since its in the appComponent
