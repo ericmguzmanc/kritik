@@ -2,11 +2,13 @@ import mongoose from 'mongoose';
 import { PasswordHasher } from '../util/PasswordHasher';
 
 interface UserAttrs {
+  name: string,
   email: string;
   password: string;
 }
 
 interface UserDoc extends mongoose.Document {
+  name: string;
   email: string;
   password: string;
 }
@@ -17,15 +19,23 @@ interface UserModel extends mongoose.Model<UserDoc> {
 
 const userSchema = new mongoose.Schema(
   {
+    name: {
+      type: String,
+      required: true,
+
+    },
     email: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
+      lowercase: true
     },
     password: {
       type: String,
       required: true,
     },
+    passwordResetToken: String,
+    passwordResetExpires: Date
   },
   {
     toJSON: {
